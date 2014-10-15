@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <style type="text/css">
+            div.bar {
+                display: inline-block;
+                width: 20px;
+                height: 75px;
+                background-color: teal;
+                margin-right: 2px;
+            }
+            .node text {
+                pointer-events: none;
+                font: 12px sans-serif;
+            }
+            .link {
+                fill: none;
+                stroke: #000;
+                stroke-width: 4px;
+                cursor: default;
+            }
+        </style>
+
+        <script src="http://d3js.org/d3.v3.min.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+    <body>
+       <svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+            <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+            <g>
+                <title>Layer 1</title>
+                    <g id="svg_3">
+                        <path transform="rotate(-90.11238861083984 228.5,196.73812866210938) " id="svg_1" d="m199.99998,168.15999l31.09076,0l25.90926,28.57805l-25.90926,28.57823l-31.09076,0l0,-57.15628z" stroke-width="2" stroke="#000000" fill="#ffaa56"/>
+                        <text stroke="#000000" transform="matrix(0.6192358409656578,0,0,0.6666666716337204,76.26317006991846,62.666665732860565) " xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_2" y="220" x="242.61747" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">Teste</text>
+                    </g>
+            </g>
+            <defs>
+                <mask id="maskAgent" x="0" y="0" width="100" height="100" >
+                   <path 
+                    id="svg_1" d="m199.99998,168.15999l31.09076,0l25.90926,28.57805l-25.90926,28.57823l-31.09076,0l0,-57.15628z" stroke-width="2" stroke="#000000" fill="#ffaa56"/>
+                </mask>
+                <mask id="maskActivity" x="0" y="0" width="100" height="100" >
+                   <circle cx="25" cy="25" r="25" style="stroke:none; fill: #ffffff"/>
+                </mask>
+            </defs>
+
+            <rect x="1" y="1" width="150" height="150"
+                style="stroke: none; fill: #0000ff;"/>
+
+        </svg>
+        <script type="text/javascript">
+            var width = 1500, height = 1500;
+            var data = {
+                "links": [  {"source": "1","target": "2" }, { "source": "1", "target": "3" }/*{"source": 0,"target": 1 }, { "source": 0, "target": 2 }*/],
+                "nodes": [  {id:1, 'name': 'St George', type:'agent' },
+                            {id:2, 'name': 'Hunts Point Av', type:'activity'}, 
+                            {id:3, 'name': 'Hunts Av', type:'agent'}]
+            }
+
+            // make links reference nodes directly for this particular data format:
+    	    var hash_lookup = [];
+        	 // make it so we can lookup nodes in O(1):
+         	data.nodes.forEach(function(d, i) {
+           		hash_lookup[d.id] = d;
+         	});
+         	data.links.forEach(function(d, i) {
+           		d.source = hash_lookup[d.source];
+           		d.target = hash_lookup[d.target];
+         	});
+         	// and now we have Links[] and Nodes[] ready for use by D3::force...
+
+         /* force.nodes(json.Nodes);
+         force.links(json.Links); */
+
+         
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", width)
+                        .attr("height", height);
+
+            var force = d3.layout.force()
+                            .gravity(.05)
+                            .distance(100)
+                            .charge(-200)
+                            .size([width, height])
+                            .nodes(data.nodes)
+                            .links(data.links)
+                            .start();
+            
+            var node = svg.selectAll(".node")
+                            .data(data.nodes)
+                            .enter()
+                            .append("g")
+                            .attr("class", "node")
+                            .call(force.drag);
+
+
+            // <rect x="1" y="1" width="300" height="300"
+            //     style="stroke: none; fill: #0000ff; mask: url(#mask2)"/>
+
+            // node.append("rect")
+            // 	.attr("width", 300)
+            //     .attr("height", 300)
+            //     .attr("fill", "#0000ff")
+            //     .attr("mask", "url(#mask2)")
+            //     .attr("stroke", "none");
+                // .append("svg:image")
+            // https://github.com/favicon.ico
+                // .attr("xlink:href", "http://localhost:8080/workflow/_img/loading_50_50.gif")
+                // .attr("x", -8)
+                // .attr("y", -8)
+                // .attr("width", 100)
+                // .attr("height", 100);
+                /* .append("path")
+                    .attr("fill", "#f4ad6b")
+                    .attr("stroke-width", 2)
+                    .attr("d", "m199.99998,168.15999l31.09076,0l25.90926,28.57805l-25.90926,28.57823l-31.09076,0l0,-57.15628z")
+                    .attr("transform", "rotate(-90.11238861083984 228.5,196.73812866210938)")
+                    .attr("stroke", "#000000")
+                    .attr("class", "node"); */
+                //.attr();
+            // node.append("circle")
+            //                 .attr("class", "node")
+            //                 .attr("r", 12);
+            node.append("g")
+                // .append("path")
+                .append("rect")
+                .attr("width", 300)
+                .attr("height", 300)
+                .attr("mask", function(d) {
+                    if (d.type == 'agent') return "url(#maskAgent)";
+                    else return "url(#maskActivity)";
+                })
+                .attr("fill", "#f4ad6b")
+                .attr("stroke-width", 2)
+                .attr("d", "m199.99998,168.15999l31.09076,0l25.90926,28.57805l-25.90926,28.57823l-31.09076,0l0,-57.15628z")
+                .attr("transform", "rotate(-90.11238861083984 228.5,196.73812866210938)")
+                .attr("stroke", "#000000")
+                .attr("class", "node");
+            
+
+            /* node.append("svg:image")
+            // https://github.com/favicon.ico
+                .attr("xlink:href", "http://localhost:8080/workflow/_img/loading_50_50.gif")
+                .attr("x", -8)
+                .attr("y", -8)
+                .attr("width", 100)
+                .attr("height", 100); */
+
+            // node.append("text")
+            //     .attr("dx", 12)
+            //     .attr("dy", ".35em")
+            //     .attr("text-anchor", "middle")
+            //     .text(function(d) { return d.name });
+
+
+            node.append("text")
+                  .attr("stroke", "#000000")
+                  .attr("transform", "matrix(0.6192358409656578,0,0,0.6666666716337204,76.26317006991846,62.666665732860565)")
+                  .attr("xml:space", "preserve")
+                  .attr("text-anchor", "middle")
+                  .attr("font-family", "serif")
+                  .attr("font-size", 24)
+                  .attr("dx", 242.61747)
+                  .attr("dy", 220)
+                  .attr("stroke-width", 0)
+                  .attr("fill", "#000000")
+                  .text(function(d) { return d.name });
+
+            var link = svg.selectAll(".link") 
+                            .data(data.links)
+                            .enter()
+                            .append("line")
+                            .attr("class", "link");
+                            // .style("stroke","black");
+                                
+
+            // var force = d3.layout.force()
+            //                 .charge(-120)
+            //                 .linkDistance(50)
+            //                 .size([width, height])
+            //                 .nodes(data.nodes)
+            //                 .links(data.links)
+            //                 .start();
+
+            // var drag = force.drag()
+            //                 .on("dragstart", dragstart);
+
+            force.on("tick", function() {
+                link.attr("x1", function(d) { return d.source.x; })
+                    .attr("y1", function(d) { return d.source.y; }) 
+                    .attr("x2", function(d) { return d.target.x; }) 
+                    .attr("y2", function(d) { return d.target.y; });
+                
+                node.attr("transform", function(d) { 
+                    if (d.type == 'agent') 
+                        return "translate(" + (d.x-230) + "," + (d.y-180) + ")";
+                    else return "translate(" + (d.x-50) + "," + (d.y-410) + ")"; 
+                });
+
+                // node.attr("transform", function(d) { 
+                //     if (d.type == 'agent') {
+                //         return "translate(" + (d.x-230) + "," + (d.y-180) + ")";    
+                //     } else {
+                //         return "translate(" + d.x + "," + d.y + ")";
+                //     }
+            });
+
+            // node.call(force.drag);
+
+            // function dragstart(d) {
+            //     d3.select(this).classed("fixed", d.fixed = true);
+            // }
+        </script>
+    </body>
+</html>

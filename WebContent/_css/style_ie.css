@@ -1,0 +1,4 @@
+.ui-state-disabled, .ui-widget-content .ui-state-disabled { filter:Alpha(Opacity=35); }
+.ui-priority-secondary, .ui-widget-content .ui-priority-secondary { filter:Alpha(Opacity=70); }
+.ui-widget-overlay { filter:Alpha(Opacity=30); }
+.ui-widget-shadow { filter:Alpha(Opacity=30); } 

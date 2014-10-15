@@ -1,0 +1,44 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: 'Verdana', 'sans-serif';
+	color: #115500;
+}
+
+#containerLogin {
+	display: block;
+	margin-top: 70px;
+	margin-left: 400px;
+	vertical-align: middle;
+	width: 300px;
+	height: 240px;
+	padding: 2px;
+	padding-top: 5px;
+	border: 2px solid #ffffff;
+	box-shadow: 1px 1px 1px rgba(0,0,2, 0.8);
+}
+
+
+.inputs {
+	width: 200px;
+	font-family: 'Verdana', 'Sans-serif';
+	font-size: 12px;
+	height: 16px;
+	font-style: normal;
+	margin-left: 50px;
+}
+
+
+.img_botoes {
+	width: 64px;
+	height: 64px;
+	padding: 1px;
+	margin-right: 0px;
+	margin-left: 200px;
+}
+
+
+.rotulos_senha {
+	margin-left: 50px;
+	
+}

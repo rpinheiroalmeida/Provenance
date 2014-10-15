@@ -1,0 +1,17 @@
+.filetree .hover, .span.file:hover, span.folder:hover { color: blue; cursor: pointer; font-weight:bold;}
+ 
+.filetree li { padding: 3px 0 2px 16px; }
+.filetree span.folder, .filetree span.file { padding: 1px 0 1px 16px; display: block; cursor:pointer;}
+.filetree span.folder { background: url(images/folder.gif) 0 0 no-repeat;  }
+
+.filetree li.expandable span.folder { background: url(images/folder-closed.gif) 0 0 no-repeat; }
+
+.file { background: url(images/file.gif) 0 0 no-repeat; cursor:pointer;}
+
+ .new_experimento, .new_atividade {display: none;}
+ 
+ 
+ .menu_contexto {display: none;}
+ 
+ .menu_contexto ul {list-style: none; display: none;}
+ 
