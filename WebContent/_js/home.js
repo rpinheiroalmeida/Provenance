@@ -20,65 +20,91 @@ function abrirTela(nome, id){
 		nomeServlet = "/provenance/find/activity";
 		paramsServlet = "idActivity="+id;
 		nome = "activity.jsp";
+	} else if (nome == "grupo"){
+		nomeServlet = "/provenance/group/find";
+		paramsServlet = "idGroup="+id;
+		nome = "group.jsp";
 	} else {
 		$.prompt("Página inválida!");
 		return;
 	}
 	
-	enviar(nomeServlet, nome, true, "exibicao_conteudo", paramsServlet);
+	enviar(nomeServlet, nome, true, "exibicao_conteudo", paramsServlet, "json");
 }
 
 function efetuarLogoff(){
-	enviar('../login.do?acao=logoff', '../index.jsp', false, "");
+	enviar('/pages/logoff', '../index.jsp', false, "", "html");
 }
 
 function novoProjeto(){
-	enviar("/provenance/novoProjeto", "project.jsp", true, "exibicao_conteudo");
+	enviar("/provenance/novoProjeto", "project.jsp", true, "exibicao_conteudo", "", "html");
 	fecharTodosMenus();
 }
 
 function novoExperimento(idProjeto){
 //	enviar("../experiment.do?acao=novo&idProjeto="+idProjeto, "experiments.jsp", true, "exibicao_conteudo");
-	enviar("/provenance/novo/experimento", "experiments.jsp", true, "exibicao_conteudo", "idProject="+idProjeto);
+	var dataType = (idProjeto == 0)? "html": "json";
+	
+	enviar("/provenance/novo/experimento", "experiments.jsp", true, "exibicao_conteudo", "idProject="+idProjeto, dataType);
 	fecharTodosMenus();
 }
 
 function novaAtividade(idAccount){
 //	enviar("../activity.do?acao=novo&idExperimento="+idExperimento, "activity.jsp", true, "exibicao_conteudo");
-	enviar("/provenance/new/activity", "activity.jsp", true, "exibicao_conteudo", "idAccount="+idAccount);
+	var dataType = (idAccount == 0)? "html": "json";
+	enviar("/provenance/new/activity", "activity.jsp", true, "exibicao_conteudo", "idAccount="+idAccount, dataType);
+	fecharTodosMenus();
+}
+
+function novoGrupo(){
+	enviar("/provenance/new/group", "group.jsp", true, "exibicao_conteudo", "", "html");
+	fecharTodosMenus();
+}
+
+function carregarSearchScreen(){
+	enviar("/provenance/new/search", "search.jsp", true, "exibicao_conteudo", "", "html");
 	fecharTodosMenus();
 }
 
 function visualizarExperimento(idExperimento){
-	enviar("../experiment.do?acao=visualizarGrafo&idExperimento="+idExperimento, "visualizarExperimento.jsp", true, "exibicao_conteudo");
+	enviar("../experiment.do?acao=visualizarGrafo&idExperimento="+idExperimento, "visualizarExperimento.jsp", true, "exibicao_conteudo", "json");
 	fecharTodosMenus();
 }
 
 
-function enviar(pUrl, pNomeTelaAbrir, pAbreNoFrame, pIdTela, pData ){
+function enviar(pUrl, pNomeTelaAbrir, pAbreNoFrame, pIdTela, pData, pDataType){
+	
 	$.ajax({
 		url:pUrl,
-		dataType:'json',
+		dataType:pDataType,
 		type:'GET',
 		data: pData,
 		success: function( data ){
-			console.log(data);
-			if (pNomeTelaAbrir == 'project.jsp') {
-				$("#"+pIdTela).load(pNomeTelaAbrir, data.project, function() {
-					loadDataProject(data);
-				});
-			} else if (pNomeTelaAbrir == 'experiments.jsp') {
-				$("#"+pIdTela).load(pNomeTelaAbrir, data.account, function() {
-					loadDataAccount(data);
-				});
-			} else if (pNomeTelaAbrir == 'activity.jsp') {
-				$("#"+pIdTela).load(pNomeTelaAbrir, data.activity, function() {
-					loadDataActivity(data);
-				});
+			if (data == 'sucesso'){
+				$("#"+pIdTela).load(pNomeTelaAbrir);
+			} else {
+				console.log(data);
+				if (pNomeTelaAbrir == 'project.jsp') {
+					$("#"+pIdTela).load(pNomeTelaAbrir, data.project, function() {
+						loadDataProject(data);
+					});
+				} else if (pNomeTelaAbrir == 'experiments.jsp') {
+					$("#"+pIdTela).load(pNomeTelaAbrir, data.account, function() {
+						loadDataAccount(data);
+					});
+				} else if (pNomeTelaAbrir == 'activity.jsp') {
+					$("#"+pIdTela).load(pNomeTelaAbrir, data.activity, function() {
+						loadDataActivity(data);
+					});
+				} else if (pNomeTelaAbrir == 'group.jsp'){
+					$("#"+pIdTela).load(pNomeTelaAbrir, data.group, function() {
+						loadDataGroup(data);
+					});
+				}
 			}
 		},
 		error: function( xhr, er ){
-			$.prompt('Os dados n&atilde;o for&atilde;o enviados. Motivo: ' + xhr.status + ', ' + xhr.statusText + ' | ' + er);
+			$.prompt('Os dados n&atilde;o for&atilde;o enviados');
 		}
 	});	
 	
@@ -88,6 +114,15 @@ function fecharTodosMenus(){
 	$(".menu_contexto").each(function(){
 		$(this).hide('normal');
 	});	
+}
+
+function loadResultSearch(data){
+	$.prompt("Carregando grafo... Aguarde!");
+}
+
+function loadDataGroup(data){
+	$('#txtNome').val(data.group.nome);
+	$("#resultado_busca").html("<h1>Grafo carregado com sucesso</h1>")
 }
 
 function loadDataProject(data) {

@@ -83,7 +83,8 @@ function deletarProjeto()
 	$.prompt( 'Deseja realmente excluir este projeto?', {buttons: {'Sim':true, 'N&atilde;o':false}, callback: deletarReg} );	
 }
 
-function limparTela(){
+function limparTelaExperimentos(){
+	alert('limpando');
 	$("#txtNome").val("");	
 	$("#txtLocal").val("");		
 	$("#txtVersao").val("");		
@@ -92,5 +93,6 @@ function limparTela(){
 	$("#txtDataVersao").val("");
 	$("#txtObservacao").val("");
 	$("#txtDescricao").val("");
+	$("#cbxProject").val("");
 	
 }

@@ -12,12 +12,68 @@
 <script src="../jquery/jquery.impromptu.2.7.js" type="text/javascript"></script>
 <script src="../_js/activity.js"></script>
 
+<script type="text/javascript">
+$("#cbxProjectActivity").change(function(){ buscarAccounts(); });
+
+function reinicializarComboAccount(){
+	var optionSelected = $('option', '#cbxAccount')[0];
+	$('option', '#cbxAccount').remove();
+	$('#cbxAccount').append(optionSelected);
+	
+}
+
+function buscarAccounts(){
+	var id = $("#cbxProjectActivity").val();
+	var url = "/provenance/accounts/project";
+	reinicializarComboAccount();
+	
+	if (id > 0){
+		$.ajax({
+			url:url,
+			dataType:'json',
+			data: {idProject:+id},
+			type:'GET',
+			success: function( data ){
+				var accounts = data.accounts;
+				if (accounts.length > 0){
+					//será alimentada a variável html devido ao IE não funcionar com $("#cbxAccount").append(new Option(nome,id));
+					for(var i = 0; i < accounts.length; i++){
+						$("#cbxAccount").append("<option value='"+accounts[i].id+"'>"+accounts[i].nome+"</option>");
+					}
+				}
+			},
+			error: function( xhr, er ){
+				$.prompt('Os dados n&atilde;o for&atilde;o enviados. Motivo: ' + xhr.status + ', ' + xhr.statusText + ' | ' + er);
+			}
+		});
+	}
+}
+
+</script>
 
 <body>
 <div id="formCadAtividade" title="">
 	<form id="frmManterAtividade">
 		<fieldset class="cadastros">
 				<legend>Activity</legend>
+				<div  class="rotulo">Project:</div>
+				<select id="cbxProjectActivity" name="activity.account.project.id" style="width:500px">
+					<option value="0">::Selecione::</option>
+					<c:forEach var="proj" items="${listProject}">
+						<option value="${proj.id}">${proj.nome}</option>
+						<c:if test="${proj.id == activity.account.project.id}"> 
+							<option value="${proj.id}" selected>${proj.nome}</option>
+						</c:if>
+					</c:forEach>
+				</select>
+				<br>
+		
+				<div  class="rotulo">Account:</div>
+				<select id="cbxAccount" name="activity.account.id" style="width:500px">
+					<option value="0">::Selecione::</option>
+				</select>
+				<br>
+
 				<div  class="rotulo">Name:</div>
 				<input type=text id="txtNome" name="activity.nome" maxlength="50" style="width:500px"  value="${activity.nome}">
 				<br>

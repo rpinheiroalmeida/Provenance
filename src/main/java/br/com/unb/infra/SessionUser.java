@@ -24,4 +24,8 @@ public class SessionUser {
 		return (User) this.session.getAttribute("currentUser");
 	}
 
+	public void encerrarSessao(){
+		session.setAttribute("currentUser", null);
+		session.invalidate();
+	}
 }

@@ -1,5 +1,8 @@
 package br.com.unb.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import br.com.caelum.vraptor.Get;
@@ -37,4 +40,34 @@ public class AccountController {
 		result.use(Results.json()).from(account).serialize();
 		return account;
 	}
+
+//	private Account montarAccount() {
+//		Account account = new Account();
+//		account.setAnotacoes("anotacoes");
+//		account.setDataHoraFim(new Date());
+//		account.setDataHoraInicio(new Date());
+//		account.setDataVersao(new Date());
+//		account.setDescricao("descricao");
+//		account.setId(1L);
+//		account.setLocalExecucao("localExecucao");
+//		account.setNome("nome de testes");
+//		account.setProject(new Project());
+//		account.getProject().setId( Double.valueOf(Math.random() * 9).longValue()  );
+//		account.getProject().setNome("project name");
+//		account.setVersao("1.0.0");
+//		return account;
+//	}
+	
+	@Get(value = {"/find/accountsByProject"})
+	public List<Account> findAccountsFromProject(long idProject) {
+		List<Account> lista = new ArrayList<Account>();
+//		for(int i = 0; i < 10; i++){
+//			Account a = montarAccount();
+//			lista.add(a);
+//		}
+		result.use(Results.json()).from(lista).serialize();
+		return lista;
+		
+	}
+	
 }

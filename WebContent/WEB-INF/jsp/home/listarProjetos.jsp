@@ -1,23 +1,30 @@
 <%@include file="../header.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<link rel="stylesheet" href="../_css/menu.css" />
+<script src="../_js/menu.js" type="text/javascript" charset="utf-8"></script>
 <!-- <script src="http://d3js.org/d3.v3.min.js" type="text/javascript" charset="utf-8"></script> -->
 <body>
-
 <div class="tela">
 	<header>
 		<img src="../_img/logo.png"/>
+		<div id="sse2">
+		  <div id="sses2">
+		    <ul>
+		      <li><a href="javascript:void()" onclick="novoProjeto()">Project</a></li>
+		      <li><a href="javascript:void()" onclick="novoExperimento(0)">Account</a></li>
+		      <li><a href="javascript:void()" onclick="novaAtividade(0)">Activity</a></li>
+			  <li><a href="javascript:void()" onclick="novoGrupo(0)">Groups</a></li>
+			  <li><a href="javascript:void()" onclick="carregarSearchScreen()">Search</a></li>
+			  <li><a href="javascript:void()" onClick="efetuarLogoff()">Sair</a></li>
+		    </ul>
+		  </div>
+		</div>
 	</header>
 
 	<aside>
-		<a href="#" onClick="efetuarLogoff()"><img src="../_img/exit.png">&lt&lt Saída</img></a>	
-	
 		<nav id="menus">
 			 
 				<ul>
-					<div class="item_menu">
-					<li><img src="../_img/menu_projetos.png" width="100%" id="menu_projetos" oncontextmenu="mostrarContexto(this, 'novo_projeto'); return false;"></li>
-					</div>
 					<li class="item_menu">
 					<c:choose>
 						<c:when test="${not empty projectList}">
@@ -27,7 +34,6 @@
 									<li>
 										<span class="folder" id="abrirProjeto" oncontextmenu="mostrarContexto(this, 'novo_experimento<c:out value="${proj.id}"/>'); return false;" onclick="abrirTela('projeto', <c:out value="${proj.id}"/>)"><c:out value="${proj.nome}"/>
 										</span>
-							 		    <span class="menu_contexto" id="novo_experimento<c:out value="${proj.id}"/>"><a href="javascript:void(0)" onclick="novoExperimento(<c:out value="${proj.id}"/>)"><img src="../_img/adiciona.png"> Adicionar Experimento </img></a></span>
 									
 									<c:if test="${not empty proj.accounts}">
 										<ul>
@@ -37,9 +43,6 @@
 														onclick="abrirTela('experimento', <c:out value="${exp.id}"/>)">${exp.nome}
 													</span>
 												 	<span class="menu_contexto" id="nova_atividade<c:out value="${exp.id}"/>">
-												 		<a href="javascript:void(0)" onclick="novaAtividade(<c:out value="${exp.id}"/>)">
-												 			<img src="../_img/adiciona.png">Adicionar Atividade </img>
-												 		</a>
 												 		<br/>
 												 		<a href="javascript:void(0)" onclick="visualizarExperimento(<c:out value="${exp.id}"/>)">
 												 			<img src="../_img/adiciona.png">Visualizar Experimento </img>

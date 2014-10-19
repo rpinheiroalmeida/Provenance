@@ -24,7 +24,7 @@ function salvarProjeto(){
 		$.prompt("Data inicial maior que final!");
 		return;
 	}		
-	$.prompt('/provenance/salvarProjeto');
+//	$.prompt('/provenance/salvarProjeto');
 	$.ajax({
 	    url:'/provenance/salvarProjeto',
 	    dataType:'html',

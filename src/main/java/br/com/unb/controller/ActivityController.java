@@ -53,4 +53,20 @@ public class ActivityController {
 		}
 		result.use(Results.http()).body("Upload Files with sucess: " + fileNames.toString());
 	}
+
+	//alterar para buscar do serviço...
+	@Get("/accounts/project")
+	public List<Account> buscarAccountsByProject(Long idProject){
+		List<Account> lista = new ArrayList<Account>();
+		int qtd = Double.valueOf(Math.random() * 10).intValue();
+		for(int i = 0; i < qtd; i++){
+			Account a = new Account();
+			a.setId(Long.valueOf(i+1));
+			a.setNome("Account " + i);
+			lista.add(a);
+		}
+		result.use(Results.json()).from(lista, "accounts").serialize();
+		return lista;
+	}
+	
 }

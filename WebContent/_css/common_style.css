@@ -24,7 +24,7 @@ body {
 
 a {
 	text-decoration:none;
-	color: #115500;		
+	/*color: #115500;*/		
 }
 
 h1,h2, h3 {
@@ -108,7 +108,7 @@ section#corpo header {
 } */
 
 a:hover {
-	background-color:#00ff00;
+	/*background-color:#00ff00;*/
 	/* color:#0000FF; */
 	font-weight:bold;
 }
@@ -153,6 +153,11 @@ a:hover {
 }
 
 .cadastros {
+	width: 70%;
+	margin-top: 20px;
+}
+
+.pesquisas {
 	width: 70%;
 	margin-top: 20px;
 }

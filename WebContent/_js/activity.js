@@ -27,6 +27,7 @@ jQuery(document).ready(function(){
 	
 });
 
+
 function salvarAtividade(){
 	if (! isDadosValidosDaAtividade()){
 		$.prompt("Informe arquivo do programa, datas e horas inicio e fim.");
@@ -135,11 +136,12 @@ function limparTela(){
 	$("#txtHoraFimAtividade").val("");		
 	$("#txtComando").val("");
 	$("#id").val("");
-	$("#idProjetoDaAtividade").val("");	
+//	$("#idProjetoDaAtividade").val("");	
 	$("#txtArquivo").val("");	
 	$('#txtNomeArquivo').val("");	
 	$("#nomeArquivoSelecionado").html("");
 	$("#btnEnviar").hide('normal');
+	reinicializarComboAccount();
 }
 
 

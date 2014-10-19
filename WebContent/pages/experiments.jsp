@@ -20,7 +20,21 @@
 <div id="formCadExperimento">
 	<form id="frmManter">
 		<fieldset class="cadastros">
-			<legend>Account</legend>
+		<h1>Proj: id: ${account.project.id}</h1>
+				<legend>Account</legend>
+				<div  class="rotulo">Project:</div>
+				<select id="cbxProject" name="account.project.id" style="width:500px">
+					<option value="0">::Selecione::</option>
+					<c:forEach var="proj" items="${listProject}">
+						<option value="${proj.id}">${proj.nome}</option>
+						<c:if test="${account.project.id == proj.id}">
+						    <option value="${proj.id}" selected>${proj.nome}</option>
+						</c:if>
+						
+					</c:forEach>
+				</select>
+				<br>
+		
 				<div class="rotulo">Name:</div>
 				<input type="text" id="txtNome" name="account.nome" maxlength="50" size="100" value="${account.nome}"><br>				
 				
@@ -35,9 +49,8 @@
 				<div class="rotulo">Annotation:</div><textarea id="txtObservacao" name="account.anotacoes" rows="4" cols="76">${account.anotacoes}</textarea><br>			
 			
 				<input type="hidden" name="acao" value="salvar"/>
-				<input type="hidden" name="account.project.id" id="idProjeto" value="${account.project.id}"/>
 						
-				<input type="button" value="Clean" onclick="limparTela()">
+				<input type="button" value="Clean" onclick="limparTelaExperimentos()"/>
 				<c:choose>
 					<c:when test="${not empty account.id && account.id gt 0}">
 						<input type="hidden" name="idExperimento" id="idExperimento" value="${account.id}"/>
