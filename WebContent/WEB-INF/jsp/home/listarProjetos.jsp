@@ -10,12 +10,12 @@
 		<div id="sse2">
 		  <div id="sses2">
 		    <ul>
-		      <li><a href="javascript:void()" onclick="novoProjeto()">Project</a></li>
-		      <li><a href="javascript:void()" onclick="novoExperimento(0)">Account</a></li>
-		      <li><a href="javascript:void()" onclick="novaAtividade(0)">Activity</a></li>
-			  <li><a href="javascript:void()" onclick="novoGrupo(0)">Groups</a></li>
+		      <li><a href="javascript:void()" onclick="novoProjeto()">New Project</a></li>
+		      <li><a href="javascript:void()" onclick="novoExperimento(0)">New Account</a></li>
+		      <li><a href="javascript:void()" onclick="novaAtividade(0)">New Activity</a></li>
+			  <li><a href="javascript:void()" onclick="novoGrupo(0)">New Group</a></li>
 			  <li><a href="javascript:void()" onclick="carregarSearchScreen()">Search</a></li>
-			  <li><a href="javascript:void()" onClick="efetuarLogoff()">Sair</a></li>
+			  <li><a href="javascript:void()" onClick="efetuarLogoff()">Exit</a></li>
 		    </ul>
 		  </div>
 		</div>
