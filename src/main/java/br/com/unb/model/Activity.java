@@ -21,6 +21,8 @@ public class Activity implements EntityProvenance {
 	private String horaFim;
 	private Account account;
 
+	private Long idAccountExibir;
+	private Long idProjetoExibir;
 	/**
 	 * @return the id
 	 */
@@ -130,6 +132,10 @@ public class Activity implements EntityProvenance {
 	}
 	public void setAccount(Account account) {
 		this.account = account;
+		if (account != null){
+			this.idAccountExibir = account.getId();
+			this.idProjetoExibir = account.getProject().getId();
+		}
 	}
 	public String getHoraInicio() {
 		return horaInicio;
@@ -147,6 +153,18 @@ public class Activity implements EntityProvenance {
 		return EntityType.ACTIVITY;
 	}
 	
+	public Long getIdAccountExibir() {
+		return idAccountExibir;
+	}
+	public void setIdAccountExibir(Long idAccountExibir) {
+		this.idAccountExibir = idAccountExibir;
+	}
+	public Long getIdProjetoExibir() {
+		return idProjetoExibir;
+	}
+	public void setIdProjetoExibir(Long idProjetoExibir) {
+		this.idProjetoExibir = idProjetoExibir;
+	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */

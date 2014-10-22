@@ -6,6 +6,8 @@ $(document).ready(function(){
 });
 
 function abrirTela(nome, id){
+
+	
 	var nomeServlet = "";
 	var paramsServlet = new Object();
 	if (nome == "projeto"){
@@ -28,7 +30,7 @@ function abrirTela(nome, id){
 		$.prompt("Página inválida!");
 		return;
 	}
-	
+
 	enviar(nomeServlet, nome, true, "exibicao_conteudo", paramsServlet, "json");
 }
 
@@ -135,6 +137,9 @@ function loadDataProject(data) {
 }
 
 function loadDataAccount(data) {
+	
+	$("#cbxProject").find('option[value="'+data.account.idProjetoExibir+'"]').attr('selected', 'true');
+	
 	$('#txtNome').val(data.account.nome);
 	$('#txtDescricao').val(data.account.descricao);
 	$('#txtLocal').val(data.account.localExecucao);
@@ -143,13 +148,14 @@ function loadDataAccount(data) {
 	$('#txtDataFim').val(formatarData(data.account.dataHoraFim));
 	$('#txtDataVersao').val(data.account.dataVersao);
 	$('#txtObservacao').val(data.account.anotacoes);
-	if (data.account.project != null) {
-		$('#idProjeto').val(data.account.project.id);
-	}
+
 }
 
 function loadDataActivity(data) {
-
+	
+	$("#cbxProjectActivity").find('option[value="'+data.activity.idProjetoExibir+'"]').attr('selected', 'true');
+	buscarAccounts(data.activity.idAccountExibir);
+	
 	$('#txtNome').val(data.activity.nome);
 	$('#txtPrograma').val(data.activity.nomePrograma);
 	$('#txtVersao').val(data.activity.versaoPrograma); 

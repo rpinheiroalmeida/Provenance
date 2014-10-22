@@ -20,17 +20,12 @@
 <div id="formCadExperimento">
 	<form id="frmManter">
 		<fieldset class="cadastros">
-		<h1>Proj: id: ${account.project.id}</h1>
 				<legend>Account</legend>
 				<div  class="rotulo">Project:</div>
 				<select id="cbxProject" name="account.project.id" style="width:500px">
 					<option value="0">::Selecione::</option>
 					<c:forEach var="proj" items="${listProject}">
 						<option value="${proj.id}">${proj.nome}</option>
-						<c:if test="${account.project.id == proj.id}">
-						    <option value="${proj.id}" selected>${proj.nome}</option>
-						</c:if>
-						
 					</c:forEach>
 				</select>
 				<br>

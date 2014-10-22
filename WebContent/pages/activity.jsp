@@ -13,7 +13,7 @@
 <script src="../_js/activity.js"></script>
 
 <script type="text/javascript">
-$("#cbxProjectActivity").change(function(){ buscarAccounts(); });
+$("#cbxProjectActivity").change(function(){ buscarAccounts(0); });
 
 function reinicializarComboAccount(){
 	var optionSelected = $('option', '#cbxAccount')[0];
@@ -22,7 +22,7 @@ function reinicializarComboAccount(){
 	
 }
 
-function buscarAccounts(){
+function buscarAccounts(idASelecionar){
 	var id = $("#cbxProjectActivity").val();
 	var url = "/provenance/accounts/project";
 	reinicializarComboAccount();
@@ -38,7 +38,12 @@ function buscarAccounts(){
 				if (accounts.length > 0){
 					//será alimentada a variável html devido ao IE não funcionar com $("#cbxAccount").append(new Option(nome,id));
 					for(var i = 0; i < accounts.length; i++){
-						$("#cbxAccount").append("<option value='"+accounts[i].id+"'>"+accounts[i].nome+"</option>");
+						if (idASelecionar > 0 && accounts[i].id == idASelecionar ){
+							selected = 'selected';
+						} else {
+							selected = '';
+						}
+						$("#cbxAccount").append("<option value='"+accounts[i].id+"' "+ selected+">"+accounts[i].nome+"</option>");
 					}
 				}
 			},
@@ -61,9 +66,6 @@ function buscarAccounts(){
 					<option value="0">::Selecione::</option>
 					<c:forEach var="proj" items="${listProject}">
 						<option value="${proj.id}">${proj.nome}</option>
-						<c:if test="${proj.id == activity.account.project.id}"> 
-							<option value="${proj.id}" selected>${proj.nome}</option>
-						</c:if>
 					</c:forEach>
 				</select>
 				<br>

@@ -42,12 +42,6 @@
 													<span class="folder" oncontextmenu="mostrarContexto(this, 'nova_atividade<c:out value="${exp.id}"/>'); return false;" 
 														onclick="abrirTela('experimento', <c:out value="${exp.id}"/>)">${exp.nome}
 													</span>
-												 	<span class="menu_contexto" id="nova_atividade<c:out value="${exp.id}"/>">
-												 		<br/>
-												 		<a href="javascript:void(0)" onclick="visualizarExperimento(<c:out value="${exp.id}"/>)">
-												 			<img src="../_img/adiciona.png">Visualizar Experimento </img>
-												 		</a>
-												 	</span>
 												 	<c:if test="${not empty exp.activities}">
 														<ul>
 															<c:forEach var="ativ" items="${exp.activities}">

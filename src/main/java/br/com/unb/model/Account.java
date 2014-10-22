@@ -25,6 +25,8 @@ public class Account implements EntityProvenance {
 	private Project project;
 	private List<Activity> activities;
 	
+	private Long idProjetoExibir;
+	
 	public Long getId() {
 		return id;
 	}
@@ -121,6 +123,8 @@ public class Account implements EntityProvenance {
 	}
 	public void setProject(Project project) {
 		this.project = project;
+		idProjetoExibir = (project!= null? project.getId() : null);
+		
 	}
 	
 	public List<Activity> getActivities() {
@@ -138,5 +142,11 @@ public class Account implements EntityProvenance {
 		return String.format("{id:%d, name: '%s', type:'%s' }", 
 			node.getId(), node.getProperty("nome"), EntityType.ACCOUNT.getName());
 		
+	}
+	public Long getIdProjetoExibir() {
+		return idProjetoExibir;
+	}
+	public void setIdProjetoExibir(Long idProjetoExibir) {
+		this.idProjetoExibir = idProjetoExibir;
 	}
 }
