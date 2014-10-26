@@ -57,6 +57,7 @@ public class GroupController {
 			group.setNome("Grouop");
 			lista.add(group);
 		}
+		result.use(Results.json()).from(lista).serialize();
 		return lista;
 	}
 	

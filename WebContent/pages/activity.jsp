@@ -54,6 +54,33 @@ function buscarAccounts(idASelecionar){
 	}
 }
 
+function buscarGroups(idASelecionar){
+	
+	if (idASelecionar > 0){
+		$.ajax({
+			url:'/provenance/groups',
+			dataType:'json',
+			type:'GET',
+			success: function( data ){
+				var lista = data.list;
+				if (lista.length > 0){
+					for(var i = 0; i < lista.length; i++){
+						if (idASelecionar > 0 && lista[i].id == idASelecionar ){
+							selected = 'selected';
+						} else {
+							selected = '';
+						}
+						$("#cbxGroup").append("<option value='"+lista[i].id+"' "+ selected+">"+lista[i].nome+"</option>");
+					}
+				}
+			},
+			error: function( xhr, er ){
+				$.prompt('Os dados n&atilde;o for&atilde;o enviados. Motivo: ' + xhr.status + ', ' + xhr.statusText + ' | ' + er);
+			}
+		});
+	}	
+}
+
 </script>
 
 <body>
@@ -103,11 +130,9 @@ function buscarAccounts(idASelecionar){
 				<br>
 				
 				<div class="rotulo">Group:</div>
-				<input type=text list=browsers >
-				<datalist id=browsers >
-   					<option> Google
-   					<option> IE9
-				</datalist>
+				<select id="cbxGroup" name="activity.group.id" style="width:500px">
+					<option value="0">::Selecione::</option>
+				</select>
 				<br>
 				
 				<div class="rotulo">Command line:</div>

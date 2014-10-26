@@ -96,6 +96,7 @@ function enviar(pUrl, pNomeTelaAbrir, pAbreNoFrame, pIdTela, pData, pDataType){
 					});
 				} else if (pNomeTelaAbrir == 'activity.jsp') {
 					$("#"+pIdTela).load(pNomeTelaAbrir, data.activity, function() {
+						
 						loadDataActivity(data);
 					});
 				} else if (pNomeTelaAbrir == 'group.jsp'){
@@ -152,10 +153,10 @@ function loadDataAccount(data) {
 }
 
 function loadDataActivity(data) {
-	
+	buscarGroups(1); //colocar o campo do id do grupo	
 	$("#cbxProjectActivity").find('option[value="'+data.activity.idProjetoExibir+'"]').attr('selected', 'true');
 	buscarAccounts(data.activity.idAccountExibir);
-	
+
 	$('#txtNome').val(data.activity.nome);
 	$('#txtPrograma').val(data.activity.nomePrograma);
 	$('#txtVersao').val(data.activity.versaoPrograma); 
