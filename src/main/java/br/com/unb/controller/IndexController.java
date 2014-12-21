@@ -32,14 +32,18 @@ public class IndexController {
 	@Path(value = { "/cadastro" })
 	@Post
 	public void cadastro(final User usuario) throws UserException, IOException  {
-		validator.checking(new Validations() {
-			{
-				that(usuarioService.find(usuario).getId(), Matchers.is(Matchers.notNullValue()) , 
-						"", "user.already.exists");
-			}
-	    });
-		validator.onErrorUsePageOf(IndexController.class).index();
-		usuarioService.salvar(usuario);
+//		validator.checking(new Validations() {
+//			{
+//				that(usuarioService.find(usuario).getId(), Matchers.is(Matchers.notNullValue()) , 
+//						"", "user.already.exists");
+//			}
+//	    });
+		User pUser = usuarioService.find(usuario);
+		if (pUser.getId() == null) {
+			usuarioService.salvar(usuario);
+		} else {
+			validator.onErrorUsePageOf(IndexController.class).index();
+		}
 	}
 	
 	@Path(value = { "/login" })

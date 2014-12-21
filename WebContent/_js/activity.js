@@ -62,10 +62,15 @@ function salvarAtividade(){
 }
 
 function executarComando(){
+	if (!canRunCommand()) {
+		$.prompt("Command cannot be executed.");
+		return;
+	}
 	$.ajax({
-		url:'../activity.do?acao=executar',
-		data:{linhaComando:$("#linhaComando").val(), nomeArquivo:$("#txtNomeArquivo").val()},
-        dataType: 'html',
+		url:'/provenance/runCommand',
+		dataType: 'html',
+		data:$('#frmManterAtividade').serialize(),
+        type: 'POST',
 	    beforeSend: function(){
 	    	$("#divProcessando").dialog('open');
 	    },  
@@ -92,7 +97,13 @@ function isDadosValidosDaAtividade(){
 	};    
 	
 	return true;
-	
+}
+
+function canRunCommand(){
+	if ($('#txtComando').val() == '') {
+		return false;
+	} 
+	return true;
 }
 
 function deletarAtividade(codAtividade)

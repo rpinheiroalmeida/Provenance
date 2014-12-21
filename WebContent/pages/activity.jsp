@@ -14,6 +14,7 @@
 
 <script type="text/javascript">
 $("#cbxProjectActivity").change(function(){ buscarAccounts(0); });
+$("#cbxAccount").change(function(){ buscarGroups(0,0); });
 
 function reinicializarComboAccount(){
 	var optionSelected = $('option', '#cbxAccount')[0];
@@ -26,7 +27,6 @@ function buscarAccounts(idASelecionar){
 	var id = $("#cbxProjectActivity").val();
 	var url = "/provenance/accounts/project";
 	reinicializarComboAccount();
-	
 	if (id > 0){
 		$.ajax({
 			url:url,
@@ -54,11 +54,12 @@ function buscarAccounts(idASelecionar){
 	}
 }
 
-function buscarGroups(idASelecionar){
-	
-	if (idASelecionar > 0){
+function buscarGroups(idASelecionar,idAccount){
+	var id = idAccount == 0 ? $("#cbxAccount").val() : idAccount;
+	if (id > 0){
 		$.ajax({
 			url:'/provenance/groups',
+			data: {idAccount:id},
 			dataType:'json',
 			type:'GET',
 			success: function( data ){
@@ -79,6 +80,32 @@ function buscarGroups(idASelecionar){
 			}
 		});
 	}	
+}
+
+function loadGroups(idAccount){
+		$.ajax({
+			url:'/provenance/groups',
+			data: {idAccount:idAccount},
+			dataType:'json',
+			type:'GET',
+			success: function( data ){
+				var lista = data.list;
+				alert('lista.length: ' + lista.length);
+				if (lista.length > 0){
+					for(var i = 0; i < lista.length; i++){
+						if (idAccount > 0 && lista[i].id == idAccount){
+							selected = 'selected';
+						} else {
+							selected = '';
+						}
+						$("#cbxGroup").append("<option value='"+lista[i].id+"' "+ selected+">"+lista[i].nome+"</option>");
+					}
+				}
+			},
+			error: function( xhr, er ){
+				$.prompt('Os dados n&atilde;o for&atilde;o enviados. Motivo: ' + xhr.status + ', ' + xhr.statusText + ' | ' + er);
+			}
+		});
 }
 
 </script>

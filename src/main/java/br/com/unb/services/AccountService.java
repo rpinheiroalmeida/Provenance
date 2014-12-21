@@ -13,6 +13,7 @@ import br.com.unb.repository.AccountRepository;
 public class AccountService {
 
 	@Inject private AccountRepository accountRepository;
+	@Inject private ProjectService projectService;
 	
 	public void save(Account account) {
 		accountRepository.save(account);
@@ -23,6 +24,24 @@ public class AccountService {
 	}
 
 	public Account find(long idAccount) {
-		return accountRepository.find(idAccount);
+		Account account = accountRepository.find(idAccount);
+		account.setProject(projectService.findProjectByAccount(idAccount));
+		return account; 
 	}
+
+	public Account findAccountByActivity(long idActivity) {
+		Account account = accountRepository.findAccountByActivity(idActivity);
+		account.setProject(projectService.findProjectByAccount(account.getId()));
+		return account;
+	}
+	
+	public String buildJsonAccount(Long idExperimento, long idGroup) {
+		return accountRepository.buildJsonAccount(idExperimento);
+	}
+	
+	public String buildGraph(long idAccount, long idGroup) {
+		return accountRepository.buildGraph(idAccount, idGroup);
+	}
+	
+	
 }

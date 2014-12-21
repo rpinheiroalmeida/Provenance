@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
@@ -49,5 +50,16 @@ public class ProjectRepository {
 		
 		Relationship relationshipHas = nodeUser.createRelationshipTo(nodeProject, RelationshipProvenanceType.HAS);
 		relationshipHas.setProperty("relationship-type", RelationshipProvenanceType.HAS.getName());;
+	}
+	
+	public Project findProjectByAccount(long idAccount) {
+		Node nodeAccount = graphDb.getNodeById(idAccount);
+		Relationship relHas = nodeAccount.getSingleRelationship(RelationshipProvenanceType.HAS, Direction.INCOMING);
+		return projectTransform.transform2Entity(relHas.getStartNode());
+	}
+
+	public Project findById(Long idProject) {
+		Node nodeProject = graphDb.getNodeById(idProject);
+		return projectTransform.transform2Entity(nodeProject);
 	}
 }

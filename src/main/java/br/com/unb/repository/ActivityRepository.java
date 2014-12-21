@@ -82,9 +82,13 @@ public class ActivityRepository {
 	public void save(Activity activity) {
 		Node nodeAccount = graphDb.getNodeById(activity.getAccount().getId());
 		Node nodeActivity = activityTransform.transform2Node(activity, graphDb.createNode());
+		Node nodeGroup = graphDb.getNodeById(activity.getGroup().getId());
 		
 		Relationship relationshipHas = nodeAccount.createRelationshipTo(nodeActivity, RelationshipProvenanceType.HAS);
-		relationshipHas.setProperty("relationship-type", RelationshipProvenanceType.HAS.getName());;
+		relationshipHas.setProperty("relationship-type", RelationshipProvenanceType.HAS.getName());
+		
+		Relationship relationshipHasGroup = nodeActivity.createRelationshipTo(nodeGroup, RelationshipProvenanceType.HAS_GROUP);
+		relationshipHasGroup.setProperty("relationship-type", RelationshipProvenanceType.HAS_GROUP.getName());
 	}
 
 	public Activity find(long idActivity) {

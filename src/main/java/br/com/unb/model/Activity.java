@@ -2,6 +2,8 @@ package br.com.unb.model;
 
 import java.util.Date;
 
+import org.neo4j.graphdb.Node;
+
 public class Activity implements EntityProvenance {
 
 	/**
@@ -20,9 +22,11 @@ public class Activity implements EntityProvenance {
 	private String horaInicio;
 	private String horaFim;
 	private Account account;
+	private Group group;
 
 	private Long idAccountExibir;
 	private Long idProjetoExibir;
+	private Long idGroupExibir;
 	/**
 	 * @return the id
 	 */
@@ -134,7 +138,7 @@ public class Activity implements EntityProvenance {
 		this.account = account;
 		if (account != null){
 			this.idAccountExibir = account.getId();
-			this.idProjetoExibir = account.getProject().getId();
+			this.idProjetoExibir = account.getProject() != null ? account.getProject().getId() : null;
 		}
 	}
 	public String getHoraInicio() {
@@ -159,12 +163,31 @@ public class Activity implements EntityProvenance {
 	public void setIdAccountExibir(Long idAccountExibir) {
 		this.idAccountExibir = idAccountExibir;
 	}
+	
 	public Long getIdProjetoExibir() {
 		return idProjetoExibir;
 	}
 	public void setIdProjetoExibir(Long idProjetoExibir) {
 		this.idProjetoExibir = idProjetoExibir;
 	}
+	
+	public Group getGroup() {
+		return group;
+	}
+	public void setGroup(Group group) {
+		this.group = group;
+		if (this.group != null) {
+			this.idGroupExibir = this.group.getId();
+		}
+	}
+	
+	public Long getIdGroupExibir() {
+		return idGroupExibir;
+	}
+	public void setIdGroupExibir(Long idGroupExibir) {
+		this.idGroupExibir = idGroupExibir;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -198,5 +221,11 @@ public class Activity implements EntityProvenance {
 			return false;
 		}
 		return true;
+	}
+	
+	public static String buildJson(Node node) {
+		return String.format("{id:%d, name: '%s', type:'%s' }", 
+			node.getId(), node.getProperty("name"), EntityType.ACTIVITY.getName());
+		
 	}
 }

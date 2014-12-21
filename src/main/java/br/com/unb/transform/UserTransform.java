@@ -35,7 +35,7 @@ public class UserTransform<T extends User> implements Transform<T> {
 	@Override
 	public User transform2Entity(Node node) {
 		User user = new User();
-//		user.setNome((String) node.getProperty(Label.NAME.getLabel()));
+		user.setNome((String) node.getProperty(Label.NAME.getLabel()));
 		user.setLogin((String) node.getProperty(Label.LOGIN.getLabel()));
 		user.setId(node.getId());
 		

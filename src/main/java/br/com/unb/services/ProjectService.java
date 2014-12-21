@@ -31,4 +31,12 @@ public class ProjectService {
 		}
 		return projects;
 	}
+	
+	public Project findProjectByAccount(long idAccount) {
+		return projectRepository.findProjectByAccount(idAccount);
+	}
+	
+	public Project findById(Long idProject) {
+		return projectRepository.findById(idProject);
+	}
 }

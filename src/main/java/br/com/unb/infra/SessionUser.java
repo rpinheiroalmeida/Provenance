@@ -23,6 +23,10 @@ public class SessionUser {
 	public User getUser() {
 		return (User) this.session.getAttribute("currentUser");
 	}
+	
+	public void setJson(String json) {
+		this.session.setAttribute("data", json);
+	}
 
 	public void encerrarSessao(){
 		session.setAttribute("currentUser", null);

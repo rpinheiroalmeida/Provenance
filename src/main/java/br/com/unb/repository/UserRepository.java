@@ -38,7 +38,8 @@ public class UserRepository {
 		Node userNode = usersIndex.get( "login", usuario.getLogin() ).getSingle();
 		if ( userNode == null )
 		{
-			userNode = graphDb.createNode( DynamicLabel.label( "User" ) );
+			
+			userNode = transformUser.transform2Node(usuario, graphDb.createNode(DynamicLabel.label( "User" )) );
 			usersIndex.add( userNode, "login", usuario.getLogin() );
 			return transformUser.transform2Entity(userNode);
 		}

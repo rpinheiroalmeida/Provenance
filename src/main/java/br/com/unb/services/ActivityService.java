@@ -13,6 +13,8 @@ import br.com.unb.repository.ActivityRepository;
 public class ActivityService {
 
 	@Inject private ActivityRepository activityRepository;
+	@Inject private AccountService accountService;
+	@Inject private GroupService groupService;
 	
 	public void save(Activity activity) {
 		activityRepository.save(activity);
@@ -23,7 +25,10 @@ public class ActivityService {
 	}
 
 	public Activity find(long idActivity) {
-		return activityRepository.find(idActivity);
+		Activity activity = activityRepository.find(idActivity);
+		activity.setAccount(accountService.findAccountByActivity(idActivity));
+		activity.setGroup(groupService.findGroupByActivity(idActivity));
+		return activity;
 	}
 
 }

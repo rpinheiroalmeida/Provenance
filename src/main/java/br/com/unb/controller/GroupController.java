@@ -1,6 +1,5 @@
 package br.com.unb.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.caelum.vraptor.Get;
@@ -8,19 +7,19 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
-import br.com.unb.infra.SessionGroup;
 import br.com.unb.model.Group;
+import br.com.unb.services.GroupService;
 
 @Resource
 public class GroupController {
 
 	private Result result;
-	private SessionGroup sessionGroup;
+	private GroupService groupService;
 	
-	public GroupController(Result result, SessionGroup sessionGroup) {
+	public GroupController(Result result, GroupService groupService) {
 		super();
 		this.result = result;
-		this.sessionGroup = sessionGroup;
+		this.groupService = groupService;
 	}
 
 	@Get(value="/new/group")
@@ -41,24 +40,14 @@ public class GroupController {
 
 	@Post(value = {"/save/group"})
 	public void save(Group group) {
-		System.out.println("Salvando grupo");
-		List<Group> grupos = sessionGroup.getGroups();
-		grupos.add(group);
-		sessionGroup.setGroups(grupos);
-		
+		groupService.save(group);
 	}
 	
 	@Get("/groups")
-	public List<Group> listarTodos(){
-		List<Group> lista = new ArrayList<>();
-		for(int i = 0; i < 10; i++){
-			Group group = new Group();
-			group.setId(1L);
-			group.setNome("Grouop");
-			lista.add(group);
-		}
-		result.use(Results.json()).from(lista).serialize();
-		return lista;
+	public List<Group> listarByAccount(long idAccount){
+		List<Group> listGroup = groupService.listByAccount(idAccount);
+		result.use(Results.json()).from(listGroup).serialize();
+		return listGroup;
 	}
 	
 }

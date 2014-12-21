@@ -59,6 +59,7 @@ public class ProjectTransform<T extends Project> implements Transform<T>{
 		project.setId(node.getId());
 		project.setNome( (String) node.getProperty(Label.NAME.getLabel()));
 		project.setDescricao( (String) node.getProperty(Label.DESCRIPTION.getLabel()));
+		
 		project.setCoordenador( (String) node.getProperty(Label.COORDENATOR.getLabel()));
 		project.setDataHoraInicio( DateUtil.string2Date((String) node.getProperty(Label.START_DATE.getLabel())));
 		project.setDataHoraFim( DateUtil.string2Date((String) node.getProperty(Label.END_DATE.getLabel())));

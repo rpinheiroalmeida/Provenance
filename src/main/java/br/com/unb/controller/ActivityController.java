@@ -14,6 +14,8 @@ import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
 import br.com.caelum.vraptor.view.Results;
 import br.com.unb.model.Account;
 import br.com.unb.model.Activity;
+import br.com.unb.model.Project;
+import br.com.unb.services.AccountService;
 import br.com.unb.services.ActivityService;
 
 @Resource
@@ -21,6 +23,7 @@ public class ActivityController {
 
 	@Inject private Result result;
 	@Inject private ActivityService activityService;
+	@Inject private AccountService accountService;
 	
 	@Get(value = {"/new/activity"} )
 	public void newActivity(Long idAccount) {
@@ -54,19 +57,19 @@ public class ActivityController {
 		result.use(Results.http()).body("Upload Files with sucess: " + fileNames.toString());
 	}
 
-	//alterar para buscar do serviço...
 	@Get("/accounts/project")
 	public List<Account> buscarAccountsByProject(Long idProject){
-		List<Account> lista = new ArrayList<Account>();
-		int qtd = Double.valueOf(Math.random() * 10).intValue();
-		for(int i = 0; i < qtd; i++){
-			Account a = new Account();
-			a.setId(Long.valueOf(i+1));
-			a.setNome("Account " + i);
-			lista.add(a);
-		}
-		result.use(Results.json()).from(lista, "accounts").serialize();
-		return lista;
+		Project project = new Project();
+		project.setId(idProject);
+		List<Account> listAccount = accountService.list(project);
+		result.use(Results.json()).from(listAccount, "accounts").serialize();
+		return listAccount;
+	}
+	
+	@Post(value = {"/runCommand"})
+	public void runCommand(Activity activity) {
+		String commandLine = activity.getLinhaComando();
+		System.out.println(commandLine);
 	}
 	
 }

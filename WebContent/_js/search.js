@@ -53,7 +53,7 @@ function consultar(){
 		type:'GET',
 		data: $("#frmBusca").serialize(),
 		success: function( data ){
-			$("#resultado_busca").val(data);
+			showGraph(data);
 		},
 		error: function( xhr, er ){
 			$.prompt('Os dados n&atilde;o for&atilde;o enviados. Motivo: ' + xhr.status + ', ' + xhr.statusText + ' | ' + er);
@@ -61,3 +61,100 @@ function consultar(){
 	});	
 	
 }
+
+function src(id) {
+    return document.getElementById(id).innerHTML;
+}
+
+function showGraph(data) {
+	var result;
+	data = "digraph G { " +
+		"subgraph cluster_0 { " +
+		"style=filled; " +
+		"color=lightgrey; " + 
+		"node [style=filled,color=white]; " +
+		"a0 -> a1 -> a2 -> a3; " +
+		"label = 'process #1'; " +
+	"}" +
+
+	"subgraph cluster_1 {  " +
+		"node [style=filled]; " +
+		"b0 -> b1 -> b2 -> b3; " +
+		"label = 'process #2';"+
+		 "color=blue " +
+	"}"
+	"start -> a0; " +
+	"start -> b0; " +
+	"a1 -> b3; " +
+	"b2 -> a3; " +
+	"a3 -> a0; " +
+	"a3 -> end; " +
+	"b3 -> end; " +
+
+	"start [shape=Mdiamond] " +
+	"end [shape=Msquare]; " +
+"}"
+    try {
+      result = Viz(data, "svg", "dot");
+      document.getElementById('resultado_busca').innerHTML += result;
+//      if (format === "svg")
+//        return result;
+//      else
+//        return inspect(result);
+    } catch(e) {
+      console.log(e.toString());
+//      return inspect(e.toString());
+    }
+}
+
+//function showGraph(data) {
+//	 try {
+//	      // Provide a string with data in DOT language
+//	      data = {
+//	        dot: "digraph topology {"+ 
+//  "node[shape=circle fontSize=12] " +
+//  "edge[length=170 fontSize=12] " + 
+//  "10.0.255.1 -> 10.0.255.3[label=1.000]; " + 
+//  "10.0.255.1 -> 10.0.255.2[label=1.000]; " +
+//  "10.0.255.1 -> 10.0.255.2[label=1.000]; " +
+//  "10.0.255.1 -> 10.0.255.3[label=1.000]; " +
+//  "10.0.255.2 -> 10.0.255.1[label=1.000]; " +
+//  "10.0.255.2 -> 10.0.255.3[label=1.000]; " +
+//  "10.0.255.3 -> 10.0.255.1[label=1.000]; " +
+//  "10.0.255.3 -> 10.0.255.2[label=1.000]; " +
+//  "10.0.255.3 -> 10.0.3.0[label=HNA, shape=solid]; " +
+//  "10.0.3.0[shape=box]; " +
+//  "10.0.255.2 -> 10.0.2.0[label=HNA]; " +
+//  "10.0.2.0[shape=box]; " +
+//  "10.0.255.1 -> 10.0.1.0[label=HNA]; " +
+//  "10.0.1.0[shape=box] ;" +
+//  "}"
+//	      };
+//
+//	      // create a network
+//	      var container = document.getElementById('resultado_busca');
+//	      var options = {};
+//	      network = new vis.Network(container, data, options);
+//	      alert(data);
+//	    }
+//	    catch (err) {
+//	      // set the cursor at the position where the error occurred
+//	    	console.log(err);
+//	      var match = /\(char (.*)\)/.exec(err);
+//	      if (match) {
+//	        var pos = Number(match[1]);
+//	        if(txtData.setSelectionRange) {
+//	          txtData.focus();
+//	          txtData.setSelectionRange(pos, pos);
+//	        }
+//	      }
+//
+//	    }
+////	alert('aa');
+////	var container = document.getElementById('resultado_busca');
+////	var data = {
+////		dot: 'dinetwork {node[shape=square]; a -> a -> ab; ab -> abc; ab -- abcd; ab -> a; abc -> a; abc -> abcd }'
+////	};
+////	var network = new vis.Network(container, data);
+//}
+

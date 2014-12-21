@@ -26,6 +26,11 @@
 	<script src="../jquery/jquery.treeview.js" type="text/javascript"></script>
 	<script src="../_js/funcoes.js" type="text/javascript"></script>
     <script src="../_js/home.js" type="text/javascript"></script>
+    
+    <link href="http://visjs.org/dist/vis.css" rel="stylesheet" type="text/css" />
+	<script src="http://visjs.org/dist/vis.js"></script>
+	<script src="http://www.webgraphviz.com/viz.js"></script>
+    
     <!--  
     <script src="../d3/d3.js" type="text/javascript"></script>
     <script src="http://d3js.org/d3.v3.min.js" type="text/javascript" charset="utf-8"></script> 
@@ -33,6 +38,14 @@
 	<script src="../jquery/ui/jquery-ui-1.7.2.custom.js" type="text/javascript"></script>
 	<script src="../jquery/ui/jquery.ui-contextmenu.js" type="text/javascript"></script>
 	-->
+	
+	<style type="text/css">
+    #mynetwork {
+      width: 400px;
+      height: 400px;
+      border: 1px solid lightgray;
+    }
+  </style>
 </head>  
 <%-- <c:if test="${empty sessionScope.usuarioLogado}">
 	<h1>Usu&aacute;rio n&atilde;o autenticado!</h1>

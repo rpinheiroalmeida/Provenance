@@ -57,7 +57,7 @@ data = eval("(" + data + ")");
 	});
 
 	
-var svg = d3.select("section").append("svg").attr({"width":w,"height":h});
+var svg = d3.select("resultado_busca").append("svg").append("svg").attr({"width":w,"height":h});
 
 svg.append("defs")
 	.append("mask")

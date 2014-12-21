@@ -1,5 +1,7 @@
 package br.com.unb.model;
 
+import org.neo4j.graphdb.Node;
+
 public class User implements EntityProvenance {
 
 	/**
@@ -87,5 +89,11 @@ public class User implements EntityProvenance {
 	@Override
 	public EntityType getType() {
 		return EntityType.AGENT;
+	}
+	
+	public static String buildJson(Node node) {
+		return String.format("{id:%d, name: '%s', type:'%s' }", 
+			node.getId(), node.getProperty("name"), EntityType.AGENT.getName());
+		
 	}
 }

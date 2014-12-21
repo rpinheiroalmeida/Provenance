@@ -1,5 +1,6 @@
 package br.com.unb.model;
 
+
 public class Group implements EntityProvenance {
 
 	/**
@@ -8,17 +9,16 @@ public class Group implements EntityProvenance {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String nome;
+	private Account account;
 	
 	@Override
 	public Long getId() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 
 	@Override
 	public EntityType getType() {
-		// TODO Auto-generated method stub
-		return EntityType.COLLECTION;
+		return EntityType.GROUP;
 	}
 
 	public String getNome() {
@@ -31,6 +31,14 @@ public class Group implements EntityProvenance {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	@Override
@@ -57,6 +65,4 @@ public class Group implements EntityProvenance {
 			return false;
 		return true;
 	}
-
-
 }

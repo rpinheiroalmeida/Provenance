@@ -153,9 +153,11 @@ function loadDataAccount(data) {
 }
 
 function loadDataActivity(data) {
-	buscarGroups(1); //colocar o campo do id do grupo	
+//	buscarGroups(1); //colocar o campo do id do grupo	
 	$("#cbxProjectActivity").find('option[value="'+data.activity.idProjetoExibir+'"]').attr('selected', 'true');
 	buscarAccounts(data.activity.idAccountExibir);
+	$("#cbxAccount").find('option[value="'+data.activity.idAccountExibir+'"]').attr('selected', 'true');
+	buscarGroups(data.activity.idGroupExibir, data.activity.idAccountExibir);
 
 	$('#txtNome').val(data.activity.nome);
 	$('#txtPrograma').val(data.activity.nomePrograma);

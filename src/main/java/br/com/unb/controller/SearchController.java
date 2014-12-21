@@ -1,8 +1,9 @@
 package br.com.unb.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Resource;
@@ -10,10 +11,13 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
 import br.com.unb.infra.SessionGroup;
 import br.com.unb.infra.SessionProject;
+import br.com.unb.infra.SessionUser;
 import br.com.unb.model.Account;
 import br.com.unb.model.Group;
 import br.com.unb.model.Project;
 import br.com.unb.model.User;
+import br.com.unb.services.AccountService;
+import br.com.unb.services.ProjectService;
 
 @Resource
 public class SearchController {
@@ -21,12 +25,16 @@ public class SearchController {
 	private Result result;
 	private SessionProject sessionProject;
 	private SessionGroup sessionGroup;
+	private final SessionUser sessionUser;
+	@Inject private ProjectService projectService;
+	@Inject private AccountService accountService;
 	
 
-	public SearchController(Result result, SessionProject sessionProject, SessionGroup sessionGroup) {
+	public SearchController(Result result, SessionProject sessionProject, SessionGroup sessionGroup, SessionUser sessionUser) {
 		this.result = result;
 		this.sessionProject = sessionProject;
 		this.sessionGroup = sessionGroup;
+		this.sessionUser = sessionUser;
 	}
 	
 	//carrega o form com os combos de grupo e projeto preenchidos
@@ -51,50 +59,29 @@ public class SearchController {
 	}
 
 	private void carregarProjetos() {
-		//carregar na sessao dos projetos a lista de projetos cadastradas
-		//User userSession = sessionUser.getUser();
-		List<Project> projects = new ArrayList<Project>();//projectService.listProjects(userSession);
-		for(int i = 0; i< 10; i++){
-			projects.add(montarProjeto(Long.valueOf(i), "projeto " + i));
-		}
-		
+		User userSession = sessionUser.getUser();
+		List<Project> projects = projectService.listProjects(userSession);
+
 		sessionProject.setProjects(projects);
-		
 	}
 
 	//efetua a pesquisa
 	@Get("/busca/search")
-	public void search(Long idProject, Long idAccount, Long idGroup){
+	public String search(Long idProject, Long idAccount, Long idGroup){
 		//System.out.println("Search controller.search");
-		result.use(Results.http()).body("<h1>Resultado da consulta</h1>");
-	}
-	
-	private Project montarProjeto(Long id, String descricao) {
-		Project project = new Project();// sessionProject.getProject(idProject);
-		project.setUsuario(new User());
-		project.getUsuario().setLogin("wal");
-		project.setCoordenador("Wal");
-		project.setDataHoraInicio(new Date());
-		project.setDataHoraFim(new Date());
-		project.setDescricao(descricao);
-		project.setId(id);
-		project.setNome(descricao);
-		project.setObservacao("");
-		return project;
+		String json = accountService.buildJsonAccount(idAccount, idGroup);
+		result.use(Results.http()).body(json);
+		sessionUser.setJson(json);
+		return json;
+//		result.use(Results.http()).body("<h1>Resultado da consulta</h1>");
 	}
 	
 	@Get("/busca/accounts")
 	public List<Account> buscarAccountsByProject(Long idProject){
-		List<Account> lista = new ArrayList<Account>();
-		int qtd = Double.valueOf(Math.random() * 10).intValue();
-		for(int i = 0; i < qtd; i++){
-			Account a = new Account();
-			a.setId(Long.valueOf(i+1));
-			a.setNome("Account " + i);
-			lista.add(a);
-		}
-		result.use(Results.json()).from(lista, "accounts").serialize();
-		return lista;
+		Project project = projectService.findById(idProject);
+		List<Account> list = accountService.list(project);
+		result.use(Results.json()).from(list, "accounts").serialize();
+		return list;		
 	}
 	
 }

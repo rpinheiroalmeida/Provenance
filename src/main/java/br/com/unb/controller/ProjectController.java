@@ -1,7 +1,5 @@
 package br.com.unb.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
