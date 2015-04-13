@@ -7,11 +7,13 @@ import javax.inject.Inject;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.Relationship;
 
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.unb.model.Account;
 import br.com.unb.model.Activity;
+import br.com.unb.model.CollectionProvenance;
 import br.com.unb.model.EntityType;
 import br.com.unb.model.RelationshipProvenanceType;
 import br.com.unb.transform.ActivityTransform;
@@ -79,19 +81,40 @@ public class ActivityRepository {
 		return activities;
 	}
 	
-	public void save(Activity activity) {
+	public Long save(Activity activity) {
 		Node nodeAccount = graphDb.getNodeById(activity.getAccount().getId());
 		Node nodeActivity = activityTransform.transform2Node(activity, graphDb.createNode());
-		Node nodeGroup = graphDb.getNodeById(activity.getGroup().getId());
+		if (activity.getGroup() != null && !Long.valueOf(0).equals(activity.getGroup().getId())) {
+			Node nodeGroup = graphDb.getNodeById(activity.getGroup().getId());
+			
+			Relationship relationshipHasGroup = nodeActivity.createRelationshipTo(nodeGroup, RelationshipProvenanceType.HAS_GROUP);
+			relationshipHasGroup.setProperty("relationship-type", RelationshipProvenanceType.HAS_GROUP.getName());
+		}
 		
 		Relationship relationshipHas = nodeAccount.createRelationshipTo(nodeActivity, RelationshipProvenanceType.HAS);
 		relationshipHas.setProperty("relationship-type", RelationshipProvenanceType.HAS.getName());
 		
-		Relationship relationshipHasGroup = nodeActivity.createRelationshipTo(nodeGroup, RelationshipProvenanceType.HAS_GROUP);
-		relationshipHasGroup.setProperty("relationship-type", RelationshipProvenanceType.HAS_GROUP.getName());
+		
+		activity.setId(nodeActivity.getId());
+		
+		return nodeActivity.getId();
 	}
 
 	public Activity find(long idActivity) {
-		return activityTransform.transform2Entity(graphDb.getNodeById(idActivity));
+		try {
+			return activityTransform.transform2Entity(graphDb.getNodeById(idActivity));
+		} catch(NotFoundException e) {
+			return null;
+		}
+	}
+
+	public void saveRelationshipUsed(Activity activity, List<CollectionProvenance> collections) {
+		Node nodeActivity = graphDb.getNodeById(activity.getId());
+		Node nodeCollection = null;
+		for (CollectionProvenance collectionProvenance : collections) {
+			nodeCollection = graphDb.getNodeById(collectionProvenance.getId());
+			Relationship relationshipUsed = nodeActivity.createRelationshipTo(nodeCollection, RelationshipProvenanceType.USED);
+			relationshipUsed.setProperty("relationship-type", RelationshipProvenanceType.USED.getName());
+		}
 	}
 }

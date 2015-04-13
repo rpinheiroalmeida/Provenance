@@ -39,21 +39,27 @@ function salvarAtividade(){
 		$.prompt("Data/hora iniciais maior que finais!");
 		return;
 	}	
-	
 	mostrarNomeArquivo();
-	
 	$.ajax({
 	    url:'/provenance/save/activity',
-	    dataType:'html',
+	    dataType: 'html',
 	    data:$('#frmManterAtividade').serialize(),
 	    type:'POST',
 	    success: function( data ){
-  	    	if (data == "sucesso"){
-	    		$.prompt("Cadastro salvo com sucesso!");
-	    		window.location.reload(true);
-	    	} else {
-	    		$.prompt("Erro no cadastro. Motivo:" + data);
-	    	}
+	    	
+	    	var obj = $.parseJSON(data);
+	    	
+	    	$.prompt("Cadastro salvo com sucesso!");
+	    	
+	    	$('#idAtividade').val(obj.activity.id);
+//	    	window.location.reload(true);
+//  	    	if (data == "sucesso"){
+//	    		$.prompt("Cadastro salvo com sucesso!");
+//	    		$('#idAtividade').val(data.activity.id);
+//	    		window.location.reload(true);
+//	    	} else {
+//	    		$.prompt("Erro no cadastro. Motivo:" + data);
+//	    	}
 	    },	
 	    error: function( xhr, er ){
 	        $.prompt('Os dados n&atilde;o for&atilde;o salvos. Causa:' + data);
@@ -76,10 +82,10 @@ function executarComando(){
 	    },  
 	    success: function(data){
 			$("#divProcessando").dialog('close');
-			exibirResultadoNaTela(data);			
+//			exibirResultadoNaTela(data);			
 	    },
 		error: function( xhr, er ){
-			$.prompt('Ocorreu o seguinte problema na execu&ccedil;&atilde;o desse comando. Motivo: ' + xhr.status + ', ' + xhr.statusText + ' | ' + er);
+//			$.prompt('Ocorreu o seguinte problema na execu&ccedil;&atilde;o desse comando. Motivo: ' + xhr.status + ', ' + xhr.statusText + ' | ' + er);
 			$("#divProcessando").dialog('close');
 		}
 	});		
@@ -157,20 +163,15 @@ function limparTela(){
 
 
 function mostrarNomeArquivo(){
-	var arquivo = $('#frameUpload').contents().find('#txtArquivo').val();
-	var ultimoIndiceBarra = arquivo.lastIndexOf("\\")+1;
-	if (ultimoIndiceBarra == -1){
-		ultimoIndiceBarra = 0;
-	}
-	var nomeArquivo = arquivo.substring(ultimoIndiceBarra, arquivo.length);
+	var str = $('#frameUpload').contents().find('body').find('*:contains("Upload Files with sucess:")').text();
 	
-	$("#txtNomeArquivo").val(nomeArquivo);
-	$("#nomeArquivoSelecionado").html("Arquivo selecionado:" + nomeArquivo);
+	var indiceAbreColchetes = str.indexOf("[")+1;
+	var indiceFechaColchetes = str.indexOf("]");
+	
+	var arquivos = str.substring(indiceAbreColchetes, indiceFechaColchetes);
+	
+	$("#txtNomeArquivo").val(arquivos);
+	$("#nomeArquivoSelecionado").html("Arquivo selecionado:" + arquivos);
 
-	if(nomeArquivo != ''){
-		$("#btnEnviar").show('normal');
-	} else {
-		$("#btnEnviar").hide('normal');
-	}
 }
 

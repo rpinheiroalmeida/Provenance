@@ -69,10 +69,11 @@ public class SearchController {
 	@Get("/busca/search")
 	public String search(Long idProject, Long idAccount, Long idGroup){
 		//System.out.println("Search controller.search");
-		String json = accountService.buildJsonAccount(idAccount, idGroup);
-		result.use(Results.http()).body(json);
-		sessionUser.setJson(json);
-		return json;
+//		String json = accountService.buildJsonAccount(idAccount, idGroup);
+		String graph = accountService.buildGraph(idAccount, idGroup);
+		result.use(Results.http()).body(graph);
+		sessionUser.setJson(graph);
+		return graph;
 //		result.use(Results.http()).body("<h1>Resultado da consulta</h1>");
 	}
 	

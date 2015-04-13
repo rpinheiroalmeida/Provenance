@@ -3,7 +3,6 @@ package br.com.unb.transform;
 import org.neo4j.graphdb.Node;
 
 import br.com.caelum.vraptor.ioc.Component;
-import br.com.unb.model.Account;
 import br.com.unb.model.Group;
 
 @Component

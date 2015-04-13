@@ -35,10 +35,6 @@ public class AccountService {
 		return account;
 	}
 	
-	public String buildJsonAccount(Long idExperimento, long idGroup) {
-		return accountRepository.buildJsonAccount(idExperimento);
-	}
-	
 	public String buildGraph(long idAccount, long idGroup) {
 		return accountRepository.buildGraph(idAccount, idGroup);
 	}

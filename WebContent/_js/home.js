@@ -135,6 +135,7 @@ function loadDataProject(data) {
 	$('#txtInicio').val(formatarData(data.project.dataHoraInicio));
 	$('#txtFim').val(formatarData(data.project.dataHoraFim));
 	$('#txtObservacao').val(data.project.observacao);
+	$('#idProjeto').val(data.project.id);
 }
 
 function loadDataAccount(data) {
@@ -149,7 +150,7 @@ function loadDataAccount(data) {
 	$('#txtDataFim').val(formatarData(data.account.dataHoraFim));
 	$('#txtDataVersao').val(data.account.dataVersao);
 	$('#txtObservacao').val(data.account.anotacoes);
-
+	$('#idExperimento').val(data.account.id);
 }
 
 function loadDataActivity(data) {
@@ -168,6 +169,7 @@ function loadDataActivity(data) {
 	$('#txtHoraInicioAtividade').val(data.activity.horaInicio);
 	$('#txtFimAtividade').val(formatarData(data.activity.dataFim));
 	$('#txtHoraFimAtividade').val(data.activity.horaFim);
+	$('#idAtividade').val(data.activity.id);
 	if (data.activity.account != null) {
 		$('#idExperimento').val(data.activity.account.id);
 	}

@@ -35,9 +35,13 @@ public class ActivityController {
 	}
 	
 	@Post(value = {"/save/activity"})
-	public void save(Activity activity) {
-		System.out.println(activity.getNome() + " - " + activity.getAccount().getId());
-		activityService.save(activity);
+	public Activity save(Activity activity) {
+		Long idActivity = activityService.save(activity);
+		activity.setId(idActivity);
+		
+		result.use(Results.json()).from(activity).recursive().serialize();
+		
+		return activity;
 	}
 	
 	@Get(value = {"/find/activity"})
@@ -48,15 +52,19 @@ public class ActivityController {
 	}
 	
 	@Post("/upload")
-	public void upload(final List<UploadedFile> uploadFiles) throws IOException {
+	public void upload(final List<UploadedFile> uploadFiles, Activity activity) throws IOException {
 		List<String> fileNames = new ArrayList<>();
+		
 		for (UploadedFile uploadedFile : uploadFiles) {
 			System.out.println(uploadedFile.getFileName());
 			fileNames.add(uploadedFile.getFileName());
 		}
+		activityService.saveFiles(uploadFiles);
+		
 		result.use(Results.http()).body("Upload Files with sucess: " + fileNames.toString());
+		result.redirectTo(ActivityController.class);
 	}
-
+	
 	@Get("/accounts/project")
 	public List<Account> buscarAccountsByProject(Long idProject){
 		Project project = new Project();
@@ -68,8 +76,7 @@ public class ActivityController {
 	
 	@Post(value = {"/runCommand"})
 	public void runCommand(Activity activity) {
-		String commandLine = activity.getLinhaComando();
-		System.out.println(commandLine);
+		activityService.runCommand(activity);
 	}
 	
 }

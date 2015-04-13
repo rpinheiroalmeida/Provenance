@@ -1,6 +1,7 @@
 package br.com.unb.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.neo4j.graphdb.Node;
 
@@ -23,6 +24,7 @@ public class Activity implements EntityProvenance {
 	private String horaFim;
 	private Account account;
 	private Group group;
+	private List<CollectionProvenance> collections;
 
 	private Long idAccountExibir;
 	private Long idProjetoExibir;
@@ -227,5 +229,11 @@ public class Activity implements EntityProvenance {
 		return String.format("{id:%d, name: '%s', type:'%s' }", 
 			node.getId(), node.getProperty("name"), EntityType.ACTIVITY.getName());
 		
+	}
+	public List<CollectionProvenance> getCollections() {
+		return collections;
+	}
+	public void setCollections(List<CollectionProvenance> collections) {
+		this.collections = collections;
 	}
 }

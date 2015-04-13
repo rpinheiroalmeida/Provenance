@@ -6,7 +6,7 @@
 		<table style="width:100%">
 			 <tr>
 			 	<td>
-			 		<input type="file" id="txtArquivo" name="uploadFiles[]" multiple="multiple"/>
+			 		<input type="file" id="txtArquivo" name="uploadFiles[]" multiple="multiple" />
 			 	</td>
 		     </tr>
 		     <tr>

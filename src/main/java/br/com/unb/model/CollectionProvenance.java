@@ -1,5 +1,6 @@
 package br.com.unb.model;
 
+import java.io.File;
 import java.util.Set;
 
 import org.neo4j.graphdb.Node;
@@ -19,6 +20,20 @@ public class CollectionProvenance implements EntityProvenance {
 	private String notes;
 	private Activity activity;
 	private Set<EntityProvenance> entitiesProvenance;
+	
+	public CollectionProvenance(File file) {
+		this.name = file.getName();
+		this.size = file.length();
+		this.location = file.getAbsolutePath();
+	}
+	
+	public CollectionProvenance(String filename) {
+		this.name = filename;
+		this.size = 0;
+		this.location = "";
+	}
+	
+	public CollectionProvenance() {};
 	
 	public Long getId() {
 		return id;

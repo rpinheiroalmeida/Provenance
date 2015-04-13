@@ -55,7 +55,7 @@ public class GroupRepository {
 		Node nodeActivity = graphDb.getNodeById(idActivity);
 		Relationship relHasGroup= nodeActivity.getSingleRelationship(RelationshipProvenanceType.HAS_GROUP, Direction.OUTGOING);
 		
-		return groupTransform.transform2Entity(relHasGroup.getEndNode());
+		return relHasGroup != null ? groupTransform.transform2Entity(relHasGroup.getEndNode()) : null;
 	}
 	
 		

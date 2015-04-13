@@ -122,10 +122,8 @@ digraph G {
 	</form>	
 </div>
   
-<fieldset id="cadastros" style="width:627px; height: 400px">
 <div id="resultado_busca" style="width:627px; height: 400px">
 </div>
-</fieldset>
 
 </body>
 </html>

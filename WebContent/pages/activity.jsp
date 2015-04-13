@@ -169,8 +169,9 @@ function loadGroups(idAccount){
 				<div class="rotulo">File:</div>
 				<div id="nomeArquivoSelecionado"></div>
 				<iframe src="upload.jsp" id="frameUpload" style="width:500px"></iframe>		
-				<br>
-				<input type="hidden" id="activity.txtNomeArquivo" name="nomeArquivo"/>
+				
+				<br/>
+				<input type="hidden" id="txtNomeArquivo" name="activity.nomeArquivo" value="${activity.nomeArquivo}"/>
 				<input type="hidden" name="acao" value="salvar"/>
 				
 				<input type="hidden" id="idExperimento" name="activity.account.id" value="${activity.account.id}"/>
