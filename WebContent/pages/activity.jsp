@@ -163,7 +163,7 @@ function loadGroups(idAccount){
 				<br>
 				
 				<div class="rotulo">Command line:</div>
-				<textarea id="txtComando" name="activity.linhaComando" rows="5" maxlength="100" style="width: 500px">${activity.linhaComando}</textarea>
+				<textarea id="txtComando" name="activity.linhaComando" rows="5" maxlength="2000" style="width: 500px">${activity.linhaComando}</textarea>
 				<br>
 				
 				<div class="rotulo">File:</div>
