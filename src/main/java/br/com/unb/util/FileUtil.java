@@ -4,7 +4,7 @@ import java.io.File;
 
 public class FileUtil {
 
-	private static final String root = "/Users/rodrigopinheiro/Documents/projetos/provenance";
+	private static final String root = "/home/jboss/provenance";
 	private static final String FILE_SEPARATOR = System.getProperty("file.separator");
 	
 	private FileUtil() {}
