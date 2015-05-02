@@ -19,7 +19,7 @@ public class CommandLine {
 	}
 	
 	private String[] splitCommand(String command) {
-		return command.split(" ");
+		return command != null ? command.split(" ") : new String[0];
 	}
 	
 	public String[] getCommand() {
