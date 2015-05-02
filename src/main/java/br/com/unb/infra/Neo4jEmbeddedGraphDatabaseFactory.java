@@ -14,7 +14,9 @@ import br.com.caelum.vraptor.ioc.ComponentFactory;
 @ApplicationScoped
 public class Neo4jEmbeddedGraphDatabaseFactory implements ComponentFactory<GraphDatabaseService> {
 
-	private static final String DB_PATH = "/usr/local/Cellar/neo4j/2.0.1/libexec/data/graph.db";
+//	private static final String DB_PATH = "/usr/local/Cellar/neo4j/2.0.1/libexec/data/graph.db";
+	private static final String DB_PATH = "/usr/local/neo4j-2.0.4/data/graph.db";
+	
 	private GraphDatabaseService graphDb;
 	
 	@PostConstruct
