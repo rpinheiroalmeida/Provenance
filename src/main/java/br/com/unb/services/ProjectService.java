@@ -18,9 +18,9 @@ public class ProjectService {
 	@Inject private ActivityService activityService;
 	
 	public void save(Project project) {
-//		projectRepository.save(project);
-//		projectRepository.createGraph(project.getUsuario().getId());
-		projectRepository.createTestGraph(project.getUsuario().getId());
+		projectRepository.save(project);
+		projectRepository.createGraph(project.getUsuario().getId());
+//		projectRepository.createTestGraph(project.getUsuario().getId());
 	}
 
 	public List<Project> listProjects(User userSession) {
